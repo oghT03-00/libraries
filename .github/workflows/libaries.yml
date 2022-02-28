@@ -2,7 +2,7 @@ on: [push]
 
 jobs:
    analyze_repo_meta:
-      runs-on: localDH-o861315 #ubuntu-latest #window-lastest #localDH-o861315 ###
+      runs-on: ubuntu-latest #ubuntu-latest #window-lastest #localDH-o861315 ###
       env:
          GITHUB_secrets: ${{ toJSON(secrets) }}
          context_github: ${{ toJSON(github) }}
