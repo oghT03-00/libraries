@@ -1,0 +1,17 @@
+{
+  "OriginalFilename": "CrystalDecisions.ReportAppServer.ObjectFactory.dll",
+  "FileVersion": "",
+  "FileDescription": " ",
+  "FileLength": 5120,
+  "IsExe": false,
+  "FileHashMD5": "D71FD8CFA49608E499641955108C6849",
+  "FileHashSHA1": "89A00EBCE3950A81D0AE07A5DC7730C704DFAA36",
+  "AssemblyFullName": "CrystalDecisions.ReportAppServer.ObjectFactory, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304",
+  "AssemblyFullNameMD5": "AAD6182D9D405248A57103FEAA924339",
+  "AssemblyFullNameSHA1": "8286B2E90CDB536C32C03A64C82D83F36138C5EB",
+  "AssemblyName": "CrystalDecisions.ReportAppServer.ObjectFactory",
+  "AssemblyVersion": "13.0.2000.0",
+  "AssemblyProcessorArchitecture": "MSIL",
+  "AssemblyImageRuntimeVersion": "v2.0.50727",
+"ReferencedAssemblies": []
+}
