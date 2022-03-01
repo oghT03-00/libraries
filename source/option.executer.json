@@ -11,7 +11,7 @@
    "GithubInfo": {
       "OwnerSplashRepository": "oghT03-00/libraries"
    },
-   "IsGitCommitExecute": true,
+   "IsGitCommitExecute": false,
    "GitCommitExecute": {
       "ExcludeComputerNames": ["DESKTOP-R47HD5C"]
    },
