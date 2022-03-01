@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 
-const JwtToken = require("../../../../../../CLOUDCODE/Github/oListRepos/NodeJS/oModules/googleAuth/jwt.js").JwtToken;
-const oAxios = require("../../../../../../CLOUDCODE/Github/oListRepos/NodeJS/oModules/oAxios.js");
-const oUtils = require("../../../../../../CLOUDCODE/Github/oListRepos/NodeJS/oModules/oUtils.js");
+const JwtToken = require("E:/CLOUDCODE/Github/oListRepos/NodeJS/oModules/googleAuth/jwt.js").JwtToken;
+const oAxios = require("E:/CLOUDCODE/Github/oListRepos/NodeJS/oModules/oAxios.js");
+const oUtils = require("E:/CLOUDCODE/Github/oListRepos/NodeJS/oModules/oUtils.js");
 
 const InitializeExecuter = () => {
    let options = {};
@@ -47,10 +47,27 @@ const InitializeSecrets = (options) => {
 const options = InitializeExecuter();
 const secrets = InitializeSecrets(options);
 (async () => {
+   let deploy_librariesPath = path.join(path.dirname(__filename), "..", options.Library.SourceDirectoryName);
+   let files = oUtils.GetAllFiles(deploy_librariesPath, []);
+   files = files.filter((e) => e.toString().endsWith(".libraryfile.json"));
+   console.log({ deploy_librariesPath, files });
    let scopes = "https://www.googleapis.com/auth/firebase.database https://www.googleapis.com/auth/userinfo.email";
-   for (let i = 0; i < secrets.CONFIG.Rtdbs.length; i++) {
-      let rtdb = secrets.CONFIG.Rtdbs[i];
-      let token = await JwtToken(rtdb.client_email, scopes, rtdb.private_key);
-      console.log({ client_email: rtdb.client_email, token });
+   for (let i = 0; i < files.length; i++) {
+      let libFile = oUtils.JSONLoadForce(files[i]);
+      for (let j = 0; j < secrets.CONFIG.Rtdbs.length; j++) {
+         let rtdb = secrets.CONFIG.Rtdbs[j];
+         if (!("access_token" in rtdb)) {
+            rtdb.access_token = (await JwtToken(rtdb.client_email, scopes, rtdb.private_key)).access_token;
+         }
+         let allPromises = options.Rtdb.LibraryFields.map((field) => {
+            while (rtdb.rtdb_url.endsWith("/")) rtdb.rtdb_url = rtdb.rtdb_url.slice(0, -1);
+            return oAxios.Patch({
+               url: `${rtdb.rtdb_url}/${libFile[field]}.json`,
+               data: libFile,
+               access_token: rtdb.access_token,
+            });
+         });
+         console.log({ rtdb, libFile, allPromises });
+      }
    }
 })();

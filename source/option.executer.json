@@ -1,5 +1,5 @@
 {
-   "IsShowLogInitializeSecrets": true,
+   "IsShowLogInitializeSecrets": false,
    "IsLibrary": true,
    "Library": {
       "SourceDirectoryName": "Deploy_Libraries",
@@ -14,5 +14,8 @@
    "IsGitCommitExecute": true,
    "GitCommitExecute": {
       "ExcludeComputerNames": ["DESKTOP-R47HD5C"]
+   },
+   "Rtdb": {
+      "LibraryFields": ["FileHashMD5", "FileHashSHA1", "AssemblyFullNameMD5", "AssemblyFullNameSHA1"]
    }
 }
