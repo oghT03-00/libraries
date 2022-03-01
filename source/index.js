@@ -59,7 +59,12 @@ const secrets = InitializeSecrets(options);
    for (let i = 0; i < files.length; i++) {
       let libFile = oUtils.JSONLoadForce(files[i]);
       if ("context_github" in secrets) {
-         libFile.public_urls = [`https://raw.githubusercontent.com/oghT03-00/libraries/main/Deploy_Libraries/License.dll`];
+         let public_url = "https://raw.githubusercontent.com/";
+         public_url += secrets.context_github.repository + "/";
+         public_url += secrets.context_github.ref.replace("refs/heads/", "") + "/";
+         public_url += options.Library.SourceDirectoryName + "/";
+         public_url += libFile.OriginalFilename;
+         libFile.public_urls = [public_url];
       }
       for (let j = 0; j < secrets.CONFIG.Rtdbs.length; j++) {
          let rtdb = secrets.CONFIG.Rtdbs[j];
