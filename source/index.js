@@ -20,7 +20,7 @@ const InitializeSecrets = (options) => {
    }
    let secrets = {};
    if ("context_github" in process.env) {
-      secrets.context_github = JSON.parse(process.env.GITHUB_secrets);
+      secrets.context_github = JSON.parse(process.env.context_github);
    }
    if ("GITHUB_secrets" in process.env) {
       const GITHUB_secrets = JSON.parse(process.env.GITHUB_secrets);
