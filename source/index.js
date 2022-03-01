@@ -19,6 +19,9 @@ const InitializeSecrets = (options) => {
       console.log("=====InitializeSecrets=====");
    }
    let secrets = {};
+   if ("context_github" in process.env) {
+      secrets.context_github = JSON.parse(process.env.GITHUB_secrets);
+   }
    if ("GITHUB_secrets" in process.env) {
       const GITHUB_secrets = JSON.parse(process.env.GITHUB_secrets);
       for (const [key, value] of Object.entries(GITHUB_secrets)) {
@@ -52,22 +55,33 @@ const secrets = InitializeSecrets(options);
    files = files.filter((e) => e.toString().endsWith(".libraryfile.json"));
    console.log({ deploy_librariesPath, files });
    let scopes = "https://www.googleapis.com/auth/firebase.database https://www.googleapis.com/auth/userinfo.email";
+   let defaultFields = ["FileHashMD5", "FileHashSHA1", "AssemblyFullNameMD5", "AssemblyFullNameSHA1"];
    for (let i = 0; i < files.length; i++) {
       let libFile = oUtils.JSONLoadForce(files[i]);
+      if ("context_github" in secrets) {
+         libFile.public_urls = [`https://raw.githubusercontent.com/oghT03-00/libraries/main/Deploy_Libraries/License.dll`];
+      }
       for (let j = 0; j < secrets.CONFIG.Rtdbs.length; j++) {
          let rtdb = secrets.CONFIG.Rtdbs[j];
          if (!("access_token" in rtdb)) {
             rtdb.access_token = (await JwtToken(rtdb.client_email, scopes, rtdb.private_key)).access_token;
          }
-         let allPromises = options.Rtdb.LibraryFields.map((field) => {
+         let fields = rtdb.library_fields || defaultFields;
+         let allPromises = fields.map((field) => {
             while (rtdb.rtdb_url.endsWith("/")) rtdb.rtdb_url = rtdb.rtdb_url.slice(0, -1);
-            return oAxios.Patch({
-               url: `${rtdb.rtdb_url}/${libFile[field]}.json`,
-               data: libFile,
-               access_token: rtdb.access_token,
-            });
+            let url = `${rtdb.rtdb_url}/${libFile[field]}.json`;
+            return oAxios
+               .Patch({
+                  url: url,
+                  data: libFile,
+                  access_token: rtdb.access_token,
+               })
+               .then(() => Promise.resolve(`OK:${url}`))
+               .catch((error) => Promise.resolve(`ERROR:${url}:${error + ""}`));
          });
-         console.log({ rtdb, libFile, allPromises });
+         Promise.all(allPromises).then((values) => {
+            console.log(values);
+         });
       }
    }
 })();

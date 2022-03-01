@@ -1,21 +1,25 @@
 {
-   "IsShowLogInitializeSecrets": false,
-   "IsLibrary": true,
-   "Library": {
-      "SourceDirectoryName": "Deploy_Libraries",
-      "SourceExtentsionFile": ["*.dll", "*.exe"],
-      "IsFileNames": false,
-      "FileNames": ["OTH.PAY.ViettinBank.Crypto.dll"],
-      "OutputExtentsionFile": ".libraryfile.json"
-   },
-   "GithubInfo": {
-      "OwnerSplashRepository": "oghT03-00/libraries"
-   },
-   "IsGitCommitExecute": false,
-   "GitCommitExecute": {
-      "ExcludeComputerNames": ["DESKTOP-R47HD5C"]
-   },
-   "Rtdb": {
-      "LibraryFields": ["FileHashMD5", "FileHashSHA1", "AssemblyFullNameMD5", "AssemblyFullNameSHA1"]
-   }
+  "IsShowLogInitializeSecrets": false,
+  "IsLibrary": true,
+  "Library": {
+    "SourceDirectoryName": "Deploy_Libraries",
+    "SourceExtentsionFile": [
+      "*.dll",
+      "*.exe"
+    ],
+    "IsFileNames": false,
+    "FileNames": [
+      "OTH.PAY.ViettinBank.Crypto.dll"
+    ],
+    "OutputExtentsionFile": ".libraryfile.json"
+  },
+  "GithubInfo": {
+    "OwnerSplashRepository": "oghT03-00/libraries"
+  },
+  "IsGitCommitExecute": false,
+  "GitCommitExecute": {
+    "ExcludeComputerNames": [
+      "DESKTOP-R47HD5C"
+    ]
+  }
 }
